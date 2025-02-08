@@ -1,0 +1,23 @@
+Send Prometheus metrics to Grafana Cloud (#2994)
+## Motivation
+
+We're migrating our internal validators to send data to Grafana Cloud.
+
+## Proposal
+
+Starting with the local setup. This was useful to test the required changes that we'll likely need for the actual internal validator setup. We probably won't want to send metrics to Grafana Cloud from local runs all the time (specially for cost reasons), so this is disabled by default.
+
+Grafana Cloud credentials are stored in a secret within GCP's Secret Manager. Since Grafana Cloud will be for our internal validators, then I figured storing the secret on GCP made sense.
+
+## Test Plan
+
+Ran locally with `linera net up --kubernetes`, and saw the metrics in our Grafana Cloud instance:
+
+
+![Screenshot 2024-12-02 at 11.37.04.png](https://graphite-user-uploaded-assets-prod.s3.amazonaws.com/HlciHFAoHZW62zn13apJ/4b46c8bc-a5d3-4aad-9e3f-151cf44be947.png)
+
+## Release Plan
+
+If we want to start sending metrics to Grafana Cloud from our devnet/testnet, then:
+- These changes should be backported to the latest `devnet` branch
+- These changes should be backported to the latest `testnet` branch, then
